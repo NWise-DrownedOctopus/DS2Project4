@@ -1,0 +1,15 @@
+1, Lincoln Center
+2, Central Park
+3, Midtown West
+4, Time Square
+5, United Nations
+6, Empire State Building
+7, Chelsea
+8, Gramercy Park
+9, Greenwich Village
+10, East Village
+11, Soho
+12, Chinatown
+13, Lower East Side
+14, Wall Street
+15, Brooklyn
