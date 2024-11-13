@@ -17,20 +17,19 @@ using namespace std;
 
 
 
-struct City {
+struct Station {
     int id;
     string name;
 };
 
 class Graph {
-private:
-    unordered_map<int, City> cities;
-    unordered_map<int, std::vector<std::pair<int, int>>> adjacencyList;
-
 public:
-    void loadCities(const string& fileName);
+    unordered_map<int, Station> stations;
+    unordered_map<int, std::vector<std::pair<int, int>>> adjacencyList;
+    void loadStations(const string& fileName);
     void loadConnections(const string& fileName);
     void displayGraph();
+    void findShortestPath(int startID, int endID);
 };
 
 

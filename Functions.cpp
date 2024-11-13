@@ -7,25 +7,30 @@
 #include <sstream>
 #include <iostream>
 #include "Functions.h"
+using namespace std;
 
-void Graph::loadCities(const string &fileName) {
+void Graph::loadStations(const string &fileName) {
     ifstream file(fileName);
     string line;
     while (getline(file, line)) {
         istringstream  iss(line);
         int id;
-        string name;
-        if (iss >> id && getline(iss, name, ',')) {
-            cities[id] = {id, name};
-        }
+        string name, token;
+        vector<string> tokens;
+        while (getline(iss, token, ',')) {
+            tokens.push_back(token);
+        };
+        id = stoi(tokens[0]);
+        name = tokens[1];
+        stations.emplace(id, Station{id, name});
     }
 }
 
 void Graph::loadConnections(const string& fileName) {
-    std::ifstream file(fileName);
-    std::string line;
-    while (std::getline(file, line)) {
-        std::istringstream iss(line);
+    ifstream file(fileName);
+    string line;
+    while (getline(file, line)) {
+        istringstream iss(line);
         int source, destination, distance;
         char comma;
         if (iss >> source >> comma >> destination >> comma >> distance) {
@@ -34,11 +39,22 @@ void Graph::loadConnections(const string& fileName) {
     }
 }
 
+void Graph::findShortestPath(int startID, int endID) {
+    // Makde Node for each station
+    // SHould have [int ID, int Distance, bool visitied]
+    cout << "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "Finding shortest path from " << stations[startID].name << " to " << stations[endID].name << endl;
+    cout << "Start: " << stations[startID].name << " Distance: 0" << endl << endl;
+    for (int i = 0; i < adjacencyList[startID].size(); i++) {
+        cout << stations[adjacencyList[startID][i].first].name << endl;
+    }
+}
+
 void Graph::displayGraph() {
     for (const auto& [cityId, neighbors] : adjacencyList) {
-        std::cout << "City " << cities[cityId].name << " connects to:\n";
+        cout << "Station " << stations[cityId].name << " connects to:\n";
         for (const auto& [destId, distance] : neighbors) {
-            std::cout << "  - " << cities[destId].name << " with distance " << distance << "\n";
+            cout << "  - " << stations[destId].name << " with distance " << distance << "\n";
         }
     }
 }
