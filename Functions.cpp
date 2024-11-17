@@ -6,6 +6,7 @@
 #include <fstream>
 #include <sstream>
 #include <iostream>
+#include <tuple>
 #include "Functions.h"
 using namespace std;
 
@@ -40,14 +41,29 @@ void Graph::loadConnections(const string& fileName) {
 }
 
 void Graph::findShortestPath(int startID, int endID) {
-    // Makde Node for each station
-    // SHould have [int ID, int Distance, bool visitied]
+    // Make Node for each station
+    // Should have [int ID, int Distance, bool visited]
+    vector<tuple<int, int, bool>> graphNodes;
+    for (int i = 0; i < stations.size(); i++) {
+        tuple<int, int, bool> tempNode(stations[i].id, 9999, false);
+        graphNodes.push_back(tempNode);
+    }
     cout << "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" << endl;
     cout << "Finding shortest path from " << stations[startID].name << " to " << stations[endID].name << endl;
-    cout << "Start: " << stations[startID].name << " Distance: 0" << endl << endl;
+
+    // Here we need to set our start node to visited, and set its distance to 0
+    get<1>(graphNodes[startID]) = 0;
+    get<2>(graphNodes[startID]) = true;
+
+    // No we must update the distance of each adjacent station
     for (int i = 0; i < adjacencyList[startID].size(); i++) {
-        cout << stations[adjacencyList[startID][i].first].name << endl;
+        cout << stations[adjacencyList[startID][i].first].name << " with ID : " << stations[adjacencyList[startID][i].first].id << endl;
+        cout << "And has weight: " << adjacencyList[startID][i].second << endl;
+        get<1>(graphNodes[stations[adjacencyList[startID][i].first].id]) = adjacencyList[startID][i].second;
+        cout << stations[adjacencyList[startID][i].first].name << " with ID: " << get<1>(graphNodes[stations[adjacencyList[startID][i].first].id]) << " now has " << adjacencyList[startID][i].second << " distance" << endl;
     }
+
+
 }
 
 void Graph::displayGraph() {
