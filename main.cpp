@@ -18,9 +18,27 @@ int main()
     cout << "We have: " << graph.stations.size() << " cites" << endl;
     graph.loadConnections("connections.txt");
     graph.displayGraph();
+    cout << endl << endl;
 
-    cout << "We would like to find the shortest path from: " << graph.stations[3].name << " to " << graph.stations[9].name << endl;
-    graph.findShortestPath(3, 9);
+    int startStation, endStation;
+    while (true) {
+        cout << "Please enter the ID number for your starting station: ";
+        cin >> startStation;
+        cout << "Please enter the ID number for your ending station: ";
+        cin >> endStation;
+
+        cout << "We would like to find the shortest path from: " << graph.stations[startStation].name << " to " << graph.stations[endStation].name << endl;
+        graph.findShortestPath(startStation, endStation);
+        char choice;
+        cout << "Would you like to check another route?(Y/N)" << endl;
+        cin >> choice;
+        if (choice == 'N' || choice == 'n') {
+            break;
+        }
+    }
+
+    cout << "Thank you for using my program" << endl;
+    cout << "Now Exiting" << endl;
 
     return 0;
 }
